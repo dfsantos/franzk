@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { clustersApi } from "../../lib/api";
 import { errorMessage } from "../../lib/errors";
-import type { ClusterProfile } from "../../lib/types";
+import type { ClusterProfile, Environment } from "../../lib/types";
 
 // RF-004 + Regras de negócio 1 e 2 (PRD §6): criação/exclusão de tópico em
 // cluster compartilhado passa por aprovação de outro engenheiro de
@@ -19,6 +19,10 @@ export function ClustersPage() {
   const [retentionMs, setRetentionMs] = useState(604_800_000);
   const [requestedBy, setRequestedBy] = useState("");
 
+  const [newClusterName, setNewClusterName] = useState("");
+  const [newClusterEnvironment, setNewClusterEnvironment] = useState<Environment>("test");
+  const [newClusterBootstrapServers, setNewClusterBootstrapServers] = useState("");
+
   async function refresh() {
     try {
       const all = await clustersApi.list();
@@ -31,6 +35,24 @@ export function ClustersPage() {
   useEffect(() => {
     refresh();
   }, []);
+
+  async function handleAddCluster(event: FormEvent) {
+    event.preventDefault();
+    setError(null);
+    setNotice(null);
+    try {
+      await clustersApi.add({
+        name: newClusterName,
+        environment: newClusterEnvironment,
+        bootstrapServers: newClusterBootstrapServers,
+      });
+      setNewClusterName("");
+      setNewClusterBootstrapServers("");
+      await refresh();
+    } catch (e) {
+      setError(errorMessage(e));
+    }
+  }
 
   async function handleRequestCreation(event: FormEvent) {
     event.preventDefault();
@@ -84,13 +106,32 @@ export function ClustersPage() {
           ))}
         </tbody>
       </table>
-      {clusters.length === 0 && (
-        <p>
-          Nenhum cluster compartilhado cadastrado ainda. O cadastro de clusters (nome,
-          bootstrap servers, ambiente) é uma entrega própria — ver
-          docs/plan/DEVELOPMENT_PLAN.md.
-        </p>
-      )}
+      {clusters.length === 0 && <p>Nenhum cluster compartilhado cadastrado ainda.</p>}
+
+      <h2>Cadastrar cluster</h2>
+      <form className="field-group" onSubmit={handleAddCluster}>
+        <input
+          placeholder="nome"
+          value={newClusterName}
+          onChange={(e) => setNewClusterName(e.target.value)}
+          required
+        />
+        <select
+          value={newClusterEnvironment}
+          onChange={(e) => setNewClusterEnvironment(e.target.value as Environment)}
+        >
+          <option value="test">test</option>
+          <option value="staging">staging</option>
+          <option value="production">production</option>
+        </select>
+        <input
+          placeholder="bootstrap servers (ex.: localhost:9093)"
+          value={newClusterBootstrapServers}
+          onChange={(e) => setNewClusterBootstrapServers(e.target.value)}
+          required
+        />
+        <button type="submit">Cadastrar</button>
+      </form>
 
       <h2>Solicitar criação de tópico</h2>
       <form className="field-group" onSubmit={handleRequestCreation}>

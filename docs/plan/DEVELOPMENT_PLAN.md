@@ -119,9 +119,10 @@ Cada item deve ser uma entrega fechável em até ~1 dia de trabalho de agente.
 
 ### Trilha C — Frontend / UX
 
-- [ ] **C1.** Formulário de cadastro de `ClusterProfile` (nome, ambiente,
-      bootstrap servers) na página de Clusters — hoje só lista, não tem
-      como adicionar pela UI (`add_cluster_profile` já existe no backend).
+- [x] **C1.** Formulário de cadastro de `ClusterProfile` (nome, ambiente,
+      bootstrap servers) na página de Clusters, usando o comando
+      `add_cluster_profile` que já existia no backend. Documentado para o
+      usuário final em `docs/guia-de-inicio.md`.
 - [ ] **C2.** Paginação/scroll incremental na tabela de mensagens de
       `MessagesPage` (depende de A4 para ter cursor real).
 - [ ] **C3.** Página de histórico de aprovações (approved/rejected, não só

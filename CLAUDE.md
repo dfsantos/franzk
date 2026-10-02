@@ -18,6 +18,7 @@ do cluster.
 - **Decisões de arquitetura:** `docs/adr/`
 - **Kafka local para teste manual:** `docker-compose.yml` +
   `docs/dev-kafka-compose.md`
+- **Guia de início (usuário final da ferramenta):** `docs/guia-de-inicio.md`
 
 Leia o PRD antes de implementar qualquer funcionalidade nova — ele define
 regras de negócio (§6) e critérios de aceite (§10) que o código precisa
@@ -173,6 +174,8 @@ Ver `.claude/skills/`:
       production) para teste manual — validado nesta sessão (sobem
       `healthy`, produce/consume reais funcionam). O app ainda **não** fala
       com eles: continua no `MockKafkaClient` até a trilha B fechar.
+- [x] Formulário de cadastro de cluster na página de Clusters (trilha C1) —
+      sem ele, o usuário não tinha como fazer um cluster aparecer na lista.
 - [ ] Integração real com um broker Kafka (ver plano, trilha B).
 - [ ] Persistência de clusters/tópicos/aprovações entre reinícios.
 - [ ] Autenticação/identidade de usuário (hoje `requestedBy`/`decidedBy` são
