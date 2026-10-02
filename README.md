@@ -33,6 +33,17 @@ No Linux, compilar `src-tauri/` exige as bibliotecas de sistema
 `librsvg2-dev`. Em sessões do Claude Code, o hook
 `.claude/hooks/session-start.sh` instala isso automaticamente.
 
+## Kafka local para teste manual
+
+```bash
+docker compose up -d   # três clusters Kafka (test:9092, staging:9093, production:9094)
+docker compose down -v # derruba e limpa os dados
+```
+
+Ver `docs/dev-kafka-compose.md`. O app ainda fala com um `MockKafkaClient`
+em memória, não com esses brokers — ver `docs/plan/DEVELOPMENT_PLAN.md`,
+trilha B.
+
 ## Recommended IDE Setup
 
 - [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)

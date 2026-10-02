@@ -38,10 +38,13 @@ Leia primeiro `docs/plan/DEVELOPMENT_PLAN.md`, trilha B, e qualquer ADR em
 ## Validação
 
 Depois de qualquer mudança: `cd src-tauri && cargo check && cargo test`.
-Se a mudança depender de um broker Kafka de fato, documente em
-`docs/dev-kafka-compose.md` como subir um broker local para teste manual
-(docker-compose), já que o ambiente de sessão cloud não roda isso de forma
-persistente.
+Para testar contra um broker real, use `docker-compose.yml` na raiz do
+repo (três clusters Kafka de nó único, um por ambiente compartilhado —
+`test`:9092, `staging`:9093, `production`:9094; ver
+`docs/dev-kafka-compose.md`). Esta sessão cloud tem Docker disponível e já
+validou que os três sobem `healthy` e aceitam produce/consume reais — mas
+não presuma Docker disponível em toda sessão futura; se não estiver,
+documente o gap em vez de pular a validação silenciosamente.
 
 ## Ao terminar uma entrega
 

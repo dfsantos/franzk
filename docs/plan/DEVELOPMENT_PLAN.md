@@ -98,10 +98,15 @@ Cada item deve ser uma entrega fechável em até ~1 dia de trabalho de agente.
       `docs/adr/0001-cliente-kafka.md`. Dado que o ambiente cloud não tem
       garantia de `librdkafka`/cmake instalados, a recomendação de partida é
       `rskafka` — valide antes de divergir.
-- [ ] **B2.** Implementar `RealKafkaClient: KafkaClient` (`list_topics`,
-      `create_topic`, `delete_topic`) contra um broker real/local
-      (docker-compose com Kafka para desenvolvimento, documentar em
-      `docs/dev-kafka-compose.md`).
+- [x] **B2a.** `docker-compose.yml` com três clusters Kafka de nó único
+      (KRaft), um por ambiente compartilhado (`test`:9092, `staging`:9093,
+      `production`:9094) para testar manualmente contra um broker real
+      enquanto a trilha B não fecha — ver `docs/dev-kafka-compose.md`.
+      **Atenção:** subir isso não faz o Franzk falar com Kafka de verdade;
+      o app ainda usa `MockKafkaClient` até B2b/B3/B4 serem feitos.
+- [ ] **B2b.** Implementar `RealKafkaClient: KafkaClient` (`list_topics`,
+      `create_topic`, `delete_topic`) contra os brokers de
+      `docker-compose.yml` (trilha B2a).
 - [ ] **B3.** Implementar `filter_messages`/`produce_message` reais
       (consumer com seek por timestamp quando `timestampFrom` é informado).
 - [ ] **B4.** Implementar `cluster_health` real: estado de brokers via

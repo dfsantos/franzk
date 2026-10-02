@@ -16,6 +16,8 @@ do cluster.
 - **Plano de desenvolvimento (fonte da verdade sobre o que falta):**
   `docs/plan/DEVELOPMENT_PLAN.md`
 - **Decisões de arquitetura:** `docs/adr/`
+- **Kafka local para teste manual:** `docker-compose.yml` +
+  `docs/dev-kafka-compose.md`
 
 Leia o PRD antes de implementar qualquer funcionalidade nova — ele define
 regras de negócio (§6) e critérios de aceite (§10) que o código precisa
@@ -167,6 +169,10 @@ Ver `.claude/skills/`:
       memória.
 - [x] 13 comandos Tauri expostos e testados via `cargo check`/`cargo test`.
 - [x] Frontend com 5 páginas (uma por módulo do PRD) consumindo os comandos.
+- [x] `docker-compose.yml` com três clusters Kafka reais (test/staging/
+      production) para teste manual — validado nesta sessão (sobem
+      `healthy`, produce/consume reais funcionam). O app ainda **não** fala
+      com eles: continua no `MockKafkaClient` até a trilha B fechar.
 - [ ] Integração real com um broker Kafka (ver plano, trilha B).
 - [ ] Persistência de clusters/tópicos/aprovações entre reinícios.
 - [ ] Autenticação/identidade de usuário (hoje `requestedBy`/`decidedBy` são
